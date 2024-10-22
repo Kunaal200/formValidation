@@ -84,14 +84,15 @@
             $phoneError = empty($phonenumber) ? "Phone number is required!" : (!preg_match("/^\d{1,10}$/", $phonenumber) ? "Phone number must be numeric and up to 10 digits." : "");
 
 
-            echo  "<h1>Hello " . $fName . " " . $mName . "</h1>";
+            echo  "<h1>Hello " . htmlspecialchars($fName)  . " " . htmlspecialchars($mName) . "</h1>";
             echo  "<h3> Your gender is " . $gender . "</h3>";
-            echo  "<h3>Your Father's name is Mr. " . $fatherName . " " . $fatherLastName . " and " . "Mother's name is Mrs. " . $motherfirstName . " " . $motherLastName . "</h3>";
-            echo  "<h3> Your home address is " . $street . " city " . $city . " state " . $state . " and your country is " . $country . "</h3>";
-            echo  "<h3>Your Email address is " . $email . " And your contact number is " . $phonenumber . "</h3>";
+            echo  "<h3>Your Father's name is Mr. " . htmlspecialchars($fatherName) . " " . htmlspecialchars($fatherLastName) . " and " . "Mother's name is Mrs. " .
+                htmlspecialchars($motherfirstName)  . " " . htmlspecialchars($motherLastName) . "</h3>";
+            echo  "<h3> Your home address is " . htmlspecialchars($street) . " city " . htmlspecialchars($city) . " state " . htmlspecialchars($state) . " and your country is " . htmlspecialchars($country) . "</h3>";
+            echo  "<h3>Your Email address is " . $email . " And your contact number is " . htmlspecialchars($phonenumber) . "</h3>";
             echo  "<h3>You are doing " . $courses . " Course</h3>";
 
-            echo $comment;
+            echo  htmlspecialchars($comment);
         }
 
 
@@ -138,8 +139,9 @@
 
                 <div>
                     <span class="error"><?php echo $ageError  ?></span>
-                    <label for="age">Date of birth</label>
-                    <input class="date" type="date" name="age" id="age" required>
+                    <!-- <label for="age">Date of birth</label> -->
+                    <p>Date of Birth</p>
+                    <input class="date" type="date" name="age" id="age">
                 </div>
 
                 <!-- GENDER  -->
