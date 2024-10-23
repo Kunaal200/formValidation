@@ -58,35 +58,36 @@
                     $ageError = "Your age between 18-40.";
                 }
             } else {
-                $ageError = "Please enter your birth date.";
+                $ageError = "* Please enter your birth date.";
             }
+
 
             //  your name 
             switch (true) {
                 case empty($fName):
-                    $fNameError =  "* First name is required!";
+                    $fNameError =  "First name is required!";
                     $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $fName):
-                    $fNameError = "First name should only contain letters and must not include spaces or numbers";
+                    $fNameError = "* First name should only contain letters and must not include spaces or numbers";
                     $isValid = false;
                     break;
             }
 
             switch (true) {
                 case empty($lName):
-                    $lNameError = "* Last name is required!";
+                    $lNameError = "Last name is required!";
                     $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $lName):
-                    $lNameError = "Last name should only contain letters and must not include spaces or numbers";
+                    $lNameError = "* Last name should only contain letters and must not include spaces or numbers";
                     $isValid = false;
                     break;
             }
 
             switch (true) {
                 case empty($gender):
-                    $genderError = "Please select your gender!";
+                    $genderError = "* Please select your gender!";
                     $isValid = false;
                     break;
             }
@@ -98,18 +99,18 @@
                     $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $fatherName):
-                    $fatherNameError = "Father's first name should only contain letters and must not include spaces or numbers";
+                    $fatherNameError = "* Father's first name should only contain letters and must not include spaces or numbers";
                     $isValid = false;
                     break;
             }
 
             switch (true) {
                 case empty($fatherLastName):
-                    $fatherLastNameError = "Please enter your father's last name!";
+                    $fatherLastNameError = "Please enter last name!";
                     $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $fatherLastName):
-                    $fatherLastNameError = "Father's last name should only contain letters and must not include spaces or numbers";
+                    $fatherLastNameError = "* Father's last name should only contain letters and must not include spaces or numbers";
                     $isValid = false;
                     break;
             }
@@ -122,18 +123,18 @@
                     $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $motherfirstName):
-                    $motherfirstNameError = "Mother's first name should only contain letters and must not include spaces or numbers";
+                    $motherfirstNameError = "* Mother's first name should only contain letters and must not include spaces or numbers";
                     $isValid = false;
                     break;
             }
 
             switch (true) {
                 case empty($motherLastName):
-                    $motherLastNameError = "Please enter your mother's last name!";
+                    $motherLastNameError = "Please enter last name!";
                     $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $motherLastName):
-                    $motherLastNameError = "Mother's last name should only contain letters and must not include spaces or numbers";
+                    $motherLastNameError = "* Mother's last name should only contain letters and must not include spaces or numbers";
                     $isValid = false;
                     break;
             }
@@ -142,7 +143,7 @@
 
             switch (true) {
                 case empty($street):
-                    $streetError = "Please enter your street.";
+                    $streetError = "* Please enter your street.";
                     $isValid = false;
                     break;
             }
@@ -170,11 +171,11 @@
 
             switch (true) {
                 case empty($zipcode):
-                    $errorZipcode = "Zip code is required!";
+                    $errorZipcode = "* Zip code is required!";
                     $isValid = false;
                     break;
                 case !preg_match("/^\d{6}$/", $zipcode):
-                    $errorZipcode = "Zip code must be exactly 6 numeric digits.";
+                    $errorZipcode = "* Zip code must be exactly 6 numeric digits.";
                     $isValid = false;
                     break;
             }
@@ -187,7 +188,7 @@
                     $isValid = false;
                     break;
                 case !filter_var($email, FILTER_VALIDATE_EMAIL):
-                    $emailError = "Invalid email format.";
+                    $emailError = "* Invalid email format.";
                     $isValid = false;
                     break;
             }
@@ -200,7 +201,7 @@
                     $isValid = false;
                     break;
                 case !preg_match("/^\d{10}$/", $phonenumber):
-                    $phoneError = "Phone number must be numeric and up to 10 digits.";
+                    $phoneError = "* Phone number must be numeric and up to 10 digits.";
                     $isValid = false;
                     break;
             }
@@ -251,9 +252,7 @@
                     <h5>Your's Name</h5>
                     <label for="firstname">First Name</label>
                     <input tabindex="1" type="text" class="form-control w-50 " placeholder="First name" name="firstname" id="firstname" aria-label="First Name" value="<?php echo $fName; ?>">
-                    <span class="error"><?php echo $fNameError ?></span>
-                    <!-- <label for="middlename">Middle Name</label>
-                    <input tabindex="2" type="text" class="form-control w-50" placeholder="Middle name" name="middlename" aria-label="Middle Name" value="<?php echo $mName; ?>"> -->
+                    <span class="error"><?php echo $fNameError . "<br>"; ?></span>
                     <label for="lastname">Last Name</label>
                     <input tabindex="3" type="text" class="form-control w-50" placeholder="Last name" name="lastname" aria-label="Last Name" value="<?php echo $lName; ?>">
                     <span class="error"><?php echo $lNameError ?></span>
@@ -290,7 +289,7 @@
                     <h5>Father's name</h5>
                     <label for="fatherfirstname">First Name</label>
                     <input tabindex="7" type="text" class="form-control w-50 " placeholder="First name" name="fatherfirstname" aria-label="First Name" value="<?php echo $fatherName; ?>">
-                    <span class="error"><?php echo $fatherNameError; ?></span>
+                    <span class="error"><?php echo $fatherNameError . "<br>"; ?></span>
                     <label for="fatherlastname">Last Name</label>
                     <input tabindex="8" type="text" class="form-control w-50" placeholder="last name" name="fatherlastname" aria-label="Last Name" value="<?php echo $fatherLastName; ?>">
                     <span class="error"><?php echo $fatherLastNameError; ?></span>
@@ -301,7 +300,7 @@
                     <h5>Mother's name</h5>
                     <label for="motherfirstname">First Name</label>
                     <input tabindex="9" type="text" class="form-control w-50 " placeholder="First name" name="motherfirstname" aria-label="First Name" value="<?php echo $motherfirstName; ?>">
-                    <span class="error"><?php echo $motherfirstNameError; ?></span>
+                    <span class="error"><?php echo $motherfirstNameError . "<br>"; ?></span>
                     <label for="motherlastname">Last Name</label>
                     <input tabindex="10" type="text" class="form-control w-50" placeholder="last name" name="motherlastname" aria-label="Last Name" value="<?php echo $motherLastName; ?>">
                     <span class="error"><?php echo $motherLastNameError; ?></span>
@@ -358,7 +357,7 @@
                     <span class="error"><?php echo $phoneError; ?></span>
                 </div>
                 <div class="col-6">
-            <h5>Comment</h5>
+                    <h5>Comment</h5>
                     <label for="floatingTextarea2" class="">Comment</label>
                     <textarea tabindex="19" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" name="comment" style="height: 100px"><?php echo $comment; ?></textarea>
                 </div>
@@ -369,7 +368,7 @@
                 <div class="col-6">
                     <h5>Courses</h5>
                     <select tabindex="18" class="form-select w-50 " name="courses" aria-label="Default select example">
-                        <!-- <option selected>Courses</option> -->
+                        <option selected>Select Course</option>
                         <option value="b-tech" <?php echo ($courses === "b-tech") ? "selected" : ""; ?>>Bachelor of Technology (B Tech)</option>
                         <option value="b-com" <?php echo ($courses === "b-com") ? "selected" : ""; ?>>Bachelor of Commerce (B Com)</option>
                         <option value="bca" <?php echo ($courses === "bca") ? "selected" : ""; ?>>Bachelor of Computer Applications (BCA)</option>
@@ -378,7 +377,7 @@
                     </select>
                 </div>
                 <!-- SUBMIT  -->
-                <div class="d-flex justify-content-end col-5 mx-auto mt-4">
+                <div class="d-flex justify-content-end col-6 mt-4 ">
                     <button class="btn btn-primary w-25" type="submit" name="submit" value="signup">Submit</button>
                 </div>
             </div>
