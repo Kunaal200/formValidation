@@ -7,15 +7,21 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+<style>
+    .error {
+        font-size: 15px;
+        color: red;
+    }
+</style>
 
 <body><?php
 
-        $fNameError = $mNameError = $lNameError = $genderError = $fatherNameError = $fatherLastNameError = $motherfirstNameError = $motherLastNameError = $streetError =  $cityError  = $stateError =  $countryError = $errorZipcode   = $emailError = $phoneError =  $ageError = "";
+        $fNameError = $mNameError = $lNameError = $genderError = $fatherNameError = $fatherLastNameError = $motherfirstNameError = $motherLastNameError = $streetError =  $cityError  = $stateError =  $countryError = $errorZipcode   = $emailError = $phoneError =  $ageError = $commentError = "";
 
         $fName = $_POST["firstname"] ?? "";
         $mName = $_POST["middlename"] ?? "";
         $lName = $_POST["lastname"] ?? "";
-        $age = $_POST["age"] ?? "";
+        $dob = $_POST["age"] ?? "";
         $gender = $_POST["gender"] ?? "";
         $fatherName = $_POST["fatherfirstname"] ?? "";
         $fatherLastName = $_POST["fatherlastname"] ?? "";
@@ -31,57 +37,177 @@
         $courses = $_POST["courses"] ?? "";
         $comment = $_POST["comment"] ?? "";
 
+        // $error = "";
+
+        $isValid = true;
 
 
-        if (isset($_POST["submit"]) ? "signup" : "") {
 
-            if (empty($age)) {
-                $bdate = $_POST['age'];
+        if (!empty($email)) {
 
-                $birthDate = new DateTime($bdate);
+            if (!empty($dob)) {
+
+                $birthDate = new DateTime($dob);
                 $today = new DateTime();
 
                 $age = $today->diff($birthDate)->y;
 
-                if ($age < 18) {
-                    $ageError = "Must be 18 or older.";
+                if ($age < 18 || $age > 40) {
+                    $ageError = "Your age between 18-40.";
                 }
             } else {
                 $ageError = "Please enter your birth date.";
             }
 
-            // name validation  
-            $fNameError = empty($fName) ? "" : (!preg_match("/^[a-zA-Z]+$/", $fName) ? "First name should only contain letters and must not include spaces or numbers" : "");
-            $mNameError = empty($mName) ? "* Please enter your Middle name!" : (!preg_match("/^[a-zA-Z]+$/", $mName) ? "Middle name should only contain letters and must not include spaces or numbers" : "");
-            $lNameError = empty($lName) ? "* Please enter your Last name!" : (!preg_match("/^[a-zA-Z]+$/", $lName) ? "Last name should only contain letters and must not include spaces or numbers" : "");
+            //  your name 
+            switch (true) {
+                case empty($fName):
+                    $fNameError =  "* First name is required!";
+                    $isValid = false; // Set to false if validation fails
+                    break;
+                case !preg_match("/^[a-zA-Z]+$/", $fName):
+                    $fNameError = "First name should only contain letters and must not include spaces or numbers";
+                    $isValid = false;
+                    break;
+            }
 
-            //  gender 
-            $genderError = empty($gender) ? "Please select your gender!" : "";
+            switch (true) {
+                case empty($lName):
+                    $lNameError = "* Last name is required!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^[a-zA-Z]+$/", $lName):
+                    $lNameError = "Last name should only contain letters and must not include spaces or numbers";
+                    $isValid = false;
+                    break;
+            }
 
-            // fathers name 
+            switch (true) {
+                case empty($gender):
+                    $genderError = "Please select your gender!";
+                    $isValid = false;
+                    break;
+            }
 
-            $fatherNameError = empty($fatherName) ? "Please enter your father's name!" : (!preg_match("/^[a-zA-Z]+$/", $fatherName) ? "First name should only contain letters and must not include spaces or numbers" : "");
-            $fatherLastNameError = empty($fatherLastName) ?  "Please enter your father's last name!" : (!preg_match("/^[a-zA-Z]+$/", $fatherLastName) ? "First name should only contain letters and must not include spaces or numbers" : "");
+            //  father's name
+            switch (true) {
+                case empty($fatherName):
+                    $fatherNameError = "Please enter your father's name!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^[a-zA-Z]+$/", $fatherName):
+                    $fatherNameError = "Father's first name should only contain letters and must not include spaces or numbers";
+                    $isValid = false;
+                    break;
+            }
 
+            switch (true) {
+                case empty($fatherLastName):
+                    $fatherLastNameError = "Please enter your father's last name!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^[a-zA-Z]+$/", $fatherLastName):
+                    $fatherLastNameError = "Father's last name should only contain letters and must not include spaces or numbers";
+                    $isValid = false;
+                    break;
+            }
 
-            // mothers name 
+            //  mother's name
 
-            $motherfirstNameError = empty($motherfirstName) ? "Please enter your mother's name!" : (!preg_match("/^[a-zA-Z]+$/", $motherfirstName) ? "First name should only contain letters and must not include spaces or numbers" : "");
-            $motherLastNameError = empty($motherLastName) ?  "Please enter your mother  's last name!" : (!preg_match("/^[a-zA-Z]+$/", $motherLastName) ? "First name should only contain letters and must not include spaces or numbers" : "");
+            switch (true) {
+                case empty($motherfirstName):
+                    $motherfirstNameError = "Please enter your mother's name!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^[a-zA-Z]+$/", $motherfirstName):
+                    $motherfirstNameError = "Mother's first name should only contain letters and must not include spaces or numbers";
+                    $isValid = false;
+                    break;
+            }
 
-            // adrress 
+            switch (true) {
+                case empty($motherLastName):
+                    $motherLastNameError = "Please enter your mother's last name!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^[a-zA-Z]+$/", $motherLastName):
+                    $motherLastNameError = "Mother's last name should only contain letters and must not include spaces or numbers";
+                    $isValid = false;
+                    break;
+            }
 
-            $streetError = empty($street) ? "Please enter your street." : "";
-            $cityError = empty($city) ? "* please enter your city" : "";
-            $stateError = empty($state) ? "* Please enter your state." : "";
-            $countryError = empty($country) ? "* please enter your country" : "";
-            $errorZipcode = empty($zipcode) ? "Zip code is required!" : (!preg_match("/^\d{6}$/", $zipcode) ? "Zip code must be exactly 6 numeric digits." : "");
+            //  address
 
-            // email and phone number 
+            switch (true) {
+                case empty($street):
+                    $streetError = "Please enter your street.";
+                    $isValid = false;
+                    break;
+            }
 
+            switch (true) {
+                case empty($city):
+                    $cityError = "* Please enter your city.";
+                    $isValid = false;
+                    break;
+            }
 
-            $emailError = empty($email) ? "Email is required." : (!filter_var($email, FILTER_VALIDATE_EMAIL) ? "Invalid email format." : "");
-            $phoneError = empty($phonenumber) ? "Phone number is required!" : (!preg_match("/^\d{1,10}$/", $phonenumber) ? "Phone number must be numeric and up to 10 digits." : "");
+            switch (true) {
+                case empty($state):
+                    $stateError = "* Please enter your state.";
+                    $isValid = false;
+                    break;
+            }
+
+            switch (true) {
+                case empty($country):
+                    $countryError = "* Please enter your country.";
+                    $isValid = false;
+                    break;
+            }
+
+            switch (true) {
+                case empty($zipcode):
+                    $errorZipcode = "Zip code is required!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^\d{6}$/", $zipcode):
+                    $errorZipcode = "Zip code must be exactly 6 numeric digits.";
+                    $isValid = false;
+                    break;
+            }
+
+            //  email
+
+            switch (true) {
+                case empty($email):
+                    $emailError = "Email is required.";
+                    $isValid = false;
+                    break;
+                case !filter_var($email, FILTER_VALIDATE_EMAIL):
+                    $emailError = "Invalid email format.";
+                    $isValid = false;
+                    break;
+            }
+
+            //  phone number
+
+            switch (true) {
+                case empty($phonenumber):
+                    $phoneError = "Phone number is required!";
+                    $isValid = false;
+                    break;
+                case !preg_match("/^\d{10}$/", $phonenumber):
+                    $phoneError = "Phone number must be numeric and up to 10 digits.";
+                    $isValid = false;
+                    break;
+            }
+
+            switch (true) {
+                case empty(trim($comment)):
+                    $commentError = "Comment cannot be empty!";
+                    $isValid = false;
+            }
 
 
             echo  "<h1>Hello " . htmlspecialchars($fName)  . " " . htmlspecialchars($mName) . "</h1>";
@@ -96,8 +222,6 @@
         }
 
 
-
-
         // function debug_pre($input, $exit = false)
         // {
         //     echo "<pre>";
@@ -107,8 +231,9 @@
         //         $exit;
         //     }
         // }
-        ?>
 
+
+        ?>
 
 
     <div class="container">
@@ -118,36 +243,39 @@
         <p>Fill out the form to apply for the courses. You can consider your application accepted after you receive a confirmation email.</p>
 
 
-        <form method="POST" action="">
+        <form method="POST" action="/">
             <h3>Student Information</h3>
             <!-- NAME  -->
             <div class="row">
-                <h5>Your Name</h5>
                 <div class="col">
-                    <span class="error"><?php echo $fNameError; ?></span>
+                    <h5>Your Name</h5>
+
                     <input type="text" class="form-control w-50 " placeholder="First name" name="firstname" id="firstname" aria-label="First Name" value="<?php echo $fName; ?>">
-                    <span class="error"><?php echo $mNameError; ?></span>
+                    <span class="error"><?php echo $fNameError ?></span>
                     <input type="text" class="form-control w-50 my-2" placeholder="Middle name" name="middlename" aria-label="Middle Name" value="<?php echo $mName; ?>">
-                    <span class="error"><?php echo $lNameError; ?></span>
                     <input type="text" class="form-control w-50 my-2" placeholder="Last name" name="lastname" aria-label="Last Name" value="<?php echo $lName; ?>">
+                    <span class="error"><?php echo $lNameError ?></span>
+
+                    <!-- <span class="error"></span> -->
+
                 </div>
                 <!-- <div>
-                    <span class="error"><?php echo $ageError; ?></span>
+                    <span class="error"></span>
                     <input class="date" type="date" name="age" id="age">
                 </div>
                 <div> -->
 
-                <div>
-                    <span class="error"><?php echo $ageError  ?></span>
+                <div class="col">
                     <!-- <label for="age">Date of birth</label> -->
-                    <p>Date of Birth</p>
-                    <input class="date" type="date" name="age" id="age">
+                    <h5>Date of Birth</h5>
+                    <input class="form-control w-50" type="date" name="age" id="age" value="<?php echo $dob ?>">
+                    <!-- <input class="date" type="date" name="age" id="age"> -->
+                    <span class="error"><?php echo $ageError  ?></span>
                 </div>
 
                 <!-- GENDER  -->
                 <div class="col">
                     <h4>Gender</h4>
-                    <span class="error"><?php echo $genderError; ?></span>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="gender" id="male" value="male" <?php echo ($gender === "male") ? "checked" : ""; ?>>
                         <label class="form-check-label" for="male"> Male </label>
@@ -156,79 +284,79 @@
                         <input class="form-check-input" type="radio" name="gender" id="female" value="female" <?php echo ($gender === "female") ? "checked" : ""; ?>>
                         <label class="form-check-label" for="female"> Female </label>
                     </div>
+                    <span class="error"><?php echo $genderError; ?></span>
                 </div>
             </div>
 
 
-            <div class="col-6 d-flex w-100">
-
+            <div class="row">
                 <!-- FATHERS NAME  -->
                 <div class="col-6">
                     <h5>Father's name</h5>
-                    <span class="error"><?php echo $fatherNameError; ?></span>
                     <input type="text" class="form-control w-50 " placeholder="First name" name="fatherfirstname" aria-label="First Name" value="<?php echo $fatherName; ?>">
-                    <span class="error"><?php echo $fatherLastNameError; ?></span>
+                    <span class="error"><?php echo $fatherNameError; ?></span>
                     <input type="text" class="form-control w-50 my-2" placeholder="last name" name="fatherlastname" aria-label="Last Name" value="<?php echo $fatherLastName; ?>">
+                    <span class="error"><?php echo $fatherLastNameError; ?></span>
                 </div>
 
                 <!-- MOTHERS NAME  -->
                 <div class="col-6">
-                    <h5>Mothers's name</h5>
-                    <span class="error"><?php echo $motherfirstNameError; ?></span>
+                    <h5>Mother's name</h5>
                     <input type="text" class="form-control w-50 " placeholder="First name" name="motherfirstname" aria-label="First Name" value="<?php echo $motherfirstName; ?>">
-                    <span class="error"><?php echo $motherLastNameError; ?></span>
+                    <span class="error"><?php echo $motherfirstNameError; ?></span>
                     <input type="text" class="form-control w-50 my-2" placeholder="last name" name="motherlastname" aria-label="Last Name" value="<?php echo $motherLastName; ?>">
+                    <span class="error"><?php echo $motherLastNameError; ?></span>
                 </div>
             </div>
 
 
             <!-- ADDRESS  -->
             <div class="row mt-4">
-                <h3>Address</h3>
                 <!-- STREET ADDRESS  -->
+                <h3>Address</h3>
                 <div class="col">
-                    <span class="error"><?php echo $streetError; ?></span>
                     <input type="text" class="form-control" placeholder="Street Address" name="streetaddress" aria-label="Street Address" value="<?php echo $street; ?>">
+                    <span class="error"><?php echo $streetError; ?></span>
                 </div>
                 <!-- CITY -->
                 <div class="col">
-                    <span class="error"><?php echo $cityError; ?></span>
                     <input type="text" class="form-control" placeholder="City" name="city" aria-label="City" value="<?php echo $city; ?>">
+                    <span class="error"><?php echo $cityError; ?></span>
                 </div>
                 <!-- STATE  -->
                 <div class="col">
-                    <span><?php echo $stateError; ?></span>
                     <input type="text" class="form-control" name="state" placeholder="state / Province" value="<?php echo $state; ?>">
+                    <span class="error"><?php echo $stateError; ?></span>
                 </div>
                 <!-- COUNTRY  -->
                 <div class="col">
-                    <span><?php echo $countryError; ?></span>
                     <input type="text" class="form-control" placeholder="Country" name="country" aria-label="Country" value="<?php echo $country; ?>">
+                    <span class="error"><?php echo $countryError; ?></span>
                 </div>
                 <!-- ZIPCODE  -->
                 <div class="col">
+                    <input type="text" class="form-control" placeholder="ZIP Code" name="zipcode" maxlength="6" aria-label="ZIP Code" value="<?php echo $zipcode; ?>">
                     <span class="error"><?php echo $errorZipcode; ?></span>
-                    <input type="text" class="form-control" placeholder="ZIP Code" name="zipcode" aria-label="ZIP Code" value="<?php echo $zipcode; ?>">
                 </div>
             </div>
 
 
             <!-- CONTACT INFORMATION  -->
 
-            <div class="col mt-2">
+            <div class="row mt-2">
                 <h3>Contact Information</h3>
-                <div class="row d-flex">
-                    <span class="error"><?php echo $emailError; ?></span>
+                <div class="col d-flex">
                     <input type="email" class="form-control w-50 mx-2" id="floatingInput" name="email" placeholder="E-mail" value="<?php echo $email; ?>">
+                    <span class="error"><?php echo $emailError; ?></span>
+                    <input type="phone" class="form-control w-50 mx-2" id="floatingInput" maxlength="10" name="phonenumber" placeholder="Phone number" value="<?php echo $phonenumber; ?>">
                     <span class="error"><?php echo $phoneError; ?></span>
-                    <input type="phone" class="form-control w-50 mx-2 my-4" id="floatingInput" name="phonenumber" placeholder="Phone number" value="<?php echo $phonenumber; ?>">
                 </div>
             </div>
 
             <!-- COURSES  -->
-            <h3>Courses</h3>
-            <div class="col">
-                <select class="form-select w-50" name="courses" aria-label="Default select example">
+            <div class="row">
+                <h3>Courses</h3>
+                <select class="form-select w-50 " name="courses" aria-label="Default select example">
                     <!-- <option selected>Courses</option> -->
                     <option value="b-tech" <?php echo ($courses === "b-tech") ? "selected" : ""; ?>>Bachelor of Technology (B Tech)</option>
                     <option value="b-com" <?php echo ($courses === "b-com") ? "selected" : ""; ?>>Bachelor of Commerce (B Com)</option>
@@ -237,9 +365,9 @@
                     <option value="mbbs" <?php echo ($courses === "mbbs") ? "selected" : ""; ?>>Bachelor of Medicine and Bachelor of Surgery (MBBS)</option>
                 </select>
             </div>
-            <div class="form-floating my-3">
+            <div class="my-3">
+                <label for="floatingTextarea2" class="mx-2 my-2">Comment</label>
                 <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" name="comment" style="height: 100px"><?php echo $comment; ?></textarea>
-                <label for="floatingTextarea2">Comment</label>
             </div>
 
             <!-- SUBMIT  -->
