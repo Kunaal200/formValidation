@@ -63,7 +63,7 @@
             switch (true) {
                 case empty($fName):
                     $fNameError =  "* First name is required!";
-                    $isValid = false; // Set to false if validation fails
+                    $isValid = false;
                     break;
                 case !preg_match("/^[a-zA-Z]+$/", $fName):
                     $fNameError = "First name should only contain letters and must not include spaces or numbers";
